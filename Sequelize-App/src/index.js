@@ -55,7 +55,22 @@ app.get("/users/:id", (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || `${id}인 유저를 찾는데 에러가 남`
+                message: err.message || `${id}인 유저를 탐색 중 에러`
+            })
+        })
+})
+
+app.put("/users/:id", (req, res) => {
+    const id = req.params.id;
+    User.update(req.body, {
+        where: { id }
+    })
+        .then(result => {
+            res.send(result)
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || `${id}인 유저 업데이트 중 에러`
             })
         })
 })
