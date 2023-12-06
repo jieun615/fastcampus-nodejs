@@ -75,6 +75,29 @@ app.put("/users/:id", (req, res) => {
         })
 })
 
+app.delete('/users/:id', (req, res) => {
+    const id = req.params.id;
+    User.destroy({
+        where: { id }
+    })
+        .then(num => {
+            if(num == 1) {
+                res.send({
+                    message: "유저가 성공적으로 삭제됨"
+                })
+            } else {
+                res.send({
+                    message: `${id} 유저를 찾지 못함`
+                })
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || `${id} 유저 삭제 실패`
+            })
+        })
+})
+
 const PORT = process.env.SERVER_PORT;
 app.listen(PORT, () => {
     console.log(`Port: ${PORT}`);
